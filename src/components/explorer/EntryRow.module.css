@@ -1,0 +1,100 @@
+.row {
+  display: flex;
+  align-items: center;
+  height: 24px;
+  gap: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.row:hover,
+.row:focus-within {
+  background: var(--color-surface-sunken);
+}
+
+.rowActive {
+  background: var(--color-primary-muted);
+}
+
+.rowDropTarget {
+  outline: 1px dashed var(--color-primary);
+  outline-offset: -1px;
+}
+
+.disclosure {
+  width: 12px;
+  flex-shrink: 0;
+  font-size: 9px;
+  color: var(--color-text-faint);
+}
+
+.name {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-align: left;
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}
+
+.icon {
+  flex-shrink: 0;
+  font-size: 11px;
+}
+
+.label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dirtyDot {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-text-muted);
+}
+
+.renameInput {
+  flex: 1;
+  height: 20px;
+  padding: 0 4px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-primary);
+  border-radius: 3px;
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}
+
+.actions {
+  display: flex;
+  gap: 2px;
+  padding-right: 4px;
+  opacity: 0;
+  flex-shrink: 0;
+}
+
+.row:hover .actions,
+.row:focus-within .actions {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .actions {
+    opacity: 1;
+  }
+}
+
+.actions :global(button) {
+  width: 20px;
+  height: 20px;
+  font-size: 10px;
+}
+
+.children {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}

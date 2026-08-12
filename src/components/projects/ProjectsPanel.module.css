@@ -1,0 +1,116 @@
+.emptyActions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.newButton {
+  width: 100%;
+  height: 28px;
+  border-radius: var(--radius-md);
+  background: var(--color-primary-muted);
+  color: var(--color-primary);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+}
+
+.newButton:hover:not(:disabled) {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.newButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: var(--space-1);
+  overflow-y: auto;
+  flex: 1;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  border-radius: var(--radius-md);
+  padding-right: var(--space-1);
+}
+
+.item:hover,
+.item:focus-within {
+  background: var(--color-surface-sunken);
+}
+
+.itemActive {
+  background: var(--color-primary-muted);
+}
+
+.itemButton {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  padding: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.itemName {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.itemMeta {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.renameInput {
+  flex: 1;
+  height: 28px;
+  margin: var(--space-1);
+  padding: 0 var(--space-2);
+  background: var(--color-surface);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+}
+
+.itemActions {
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+}
+
+.item:hover .itemActions,
+.item:focus-within .itemActions {
+  opacity: 1;
+}
+
+/* Hover-reveal only works for pointer devices that have hover — on touch,
+   an opacity:0 button is still tappable but invisible, so show it always. */
+@media (hover: none) {
+  .itemActions {
+    opacity: 1;
+  }
+}

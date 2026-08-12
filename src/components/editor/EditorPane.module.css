@@ -1,0 +1,13 @@
+.pane {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.pane :global(.cm-editor) {
+  height: 100%;
+}
+
+.pane :global(.cm-scroller) {
+  overflow: auto;
+}

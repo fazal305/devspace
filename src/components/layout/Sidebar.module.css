@@ -1,0 +1,100 @@
+.sidebar {
+  display: flex;
+  min-width: 0;
+  height: 100%;
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+}
+
+.rail {
+  width: var(--sidebar-rail-width);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding-top: var(--space-2);
+  border-right: 1px solid var(--color-border);
+}
+
+.railButton {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.railButton:hover {
+  background: var(--color-surface-sunken);
+  color: var(--color-text);
+}
+
+.railButtonActive {
+  background: var(--color-primary-muted);
+  color: var(--color-primary);
+}
+
+.panel {
+  width: calc(var(--sidebar-width) - var(--sidebar-rail-width));
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.panelHeader {
+  height: 34px;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-3);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.panelContent {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.backdrop {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: var(--topbar-height);
+    bottom: 0;
+    left: 0;
+    width: min(85vw, 320px);
+    z-index: var(--z-overlay);
+    box-shadow: var(--shadow-overlay);
+    transform: translateX(-100%);
+    transition: transform var(--transition-slow);
+  }
+
+  .sidebarOpen {
+    transform: translateX(0);
+  }
+
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: var(--topbar-height) 0 0 0;
+    background: rgba(10, 12, 16, 0.4);
+    border: none;
+    z-index: calc(var(--z-overlay) - 1);
+    padding: 0;
+    cursor: default;
+  }
+}

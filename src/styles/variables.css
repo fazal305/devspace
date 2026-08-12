@@ -1,0 +1,148 @@
+/*
+  Design tokens for DevSpace.
+  Every component should consume these variables — never hardcode a color,
+  spacing value, or radius directly in a component stylesheet.
+  Text/background pairs below are chosen to clear WCAG AA (4.5:1) for normal
+  text; --color-primary-solid exists separately from --color-primary because
+  the latter is tuned for visibility as UI accents (icons, borders, text on
+  a muted chip) while solid buttons need a background dark/light enough for
+  white text specifically — one shade doesn't satisfy both.
+*/
+
+:root {
+  /* ---- Palette: cool neutral slate/blue (light) ---- */
+  --color-background: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-surface-elevated: #ffffff;
+  --color-surface-sunken: #eef0f3;
+  --color-border: #e1e4ea;
+  --color-border-strong: #c9ced8;
+
+  --color-text: #1a2130;
+  --color-text-muted: #5c6470;
+  --color-text-faint: #6b7280;
+
+  --color-primary: #3b66d4;
+  --color-primary-hover: #2f54b3;
+  --color-primary-muted: #f1f5fd;
+  --color-primary-solid: #3b66d4;
+  --color-primary-solid-hover: #2f54b3;
+
+  --color-danger: #c93f36;
+  --color-danger-muted: #fbeae9;
+  --color-danger-solid: #c93f36;
+  --color-success: #1f8f57;
+  --color-success-muted: #e6f6ee;
+  --color-warning: #a8690f;
+  --color-warning-muted: #fbf1e0;
+
+  --shadow-elevated: 0 4px 16px rgba(20, 24, 32, 0.08);
+  --shadow-overlay: 0 12px 32px rgba(20, 24, 32, 0.16);
+
+  /* ---- Spacing scale ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  /* ---- Radius ---- */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-full: 999px;
+
+  /* ---- Typography ---- */
+  --font-ui: -apple-system, "Segoe UI", system-ui, Roboto, sans-serif;
+  --font-mono: "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+  --font-size-xs: 11px;
+  --font-size-sm: 12.5px;
+  --font-size-md: 13.5px;
+  --font-size-lg: 15px;
+  --font-size-xl: 18px;
+  --line-height-ui: 1.45;
+
+  /* ---- Layout ---- */
+  --topbar-height: 44px;
+  --sidebar-width: 240px;
+  --sidebar-rail-width: 48px;
+  --bottompanel-height: 220px;
+  --z-topbar: 10;
+  --z-overlay: 100;
+  --z-toast: 200;
+
+  /* ---- Motion ---- */
+  --transition-fast: 100ms ease;
+  --transition-base: 160ms ease;
+  --transition-slow: 240ms ease;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --bottompanel-height: 160px;
+  }
+}
+
+:root[data-theme="dark"] {
+  --color-background: #14171d;
+  --color-surface: #1a1e25;
+  --color-surface-elevated: #21262f;
+  --color-surface-sunken: #101318;
+  --color-border: #2a2f3a;
+  --color-border-strong: #3a4150;
+
+  --color-text: #e6e9ee;
+  --color-text-muted: #9aa2b1;
+  --color-text-faint: #8790a0;
+
+  --color-primary: #6690f2;
+  --color-primary-hover: #85a6f5;
+  --color-primary-muted: #1c2842;
+  --color-primary-solid: #2f54b3;
+  --color-primary-solid-hover: #3557b8;
+
+  --color-danger: #e5695f;
+  --color-danger-muted: #3a2323;
+  --color-danger-solid: #c9453b;
+  --color-success: #4cc788;
+  --color-success-muted: #1e3327;
+  --color-warning: #e3a84c;
+  --color-warning-muted: #3a2f18;
+
+  --shadow-elevated: 0 4px 16px rgba(0, 0, 0, 0.32);
+  --shadow-overlay: 0 12px 32px rgba(0, 0, 0, 0.48);
+}
+
+/* System theme: resolve via prefers-color-scheme when data-theme="system" */
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] {
+    --color-background: #14171d;
+    --color-surface: #1a1e25;
+    --color-surface-elevated: #21262f;
+    --color-surface-sunken: #101318;
+    --color-border: #2a2f3a;
+    --color-border-strong: #3a4150;
+
+    --color-text: #e6e9ee;
+    --color-text-muted: #9aa2b1;
+    --color-text-faint: #8790a0;
+
+    --color-primary: #6690f2;
+    --color-primary-hover: #85a6f5;
+    --color-primary-muted: #1c2842;
+    --color-primary-solid: #2f54b3;
+    --color-primary-solid-hover: #3557b8;
+
+    --color-danger: #e5695f;
+    --color-danger-muted: #3a2323;
+    --color-success: #4cc788;
+    --color-success-muted: #1e3327;
+    --color-warning: #e3a84c;
+    --color-warning-muted: #3a2f18;
+
+    --shadow-elevated: 0 4px 16px rgba(0, 0, 0, 0.32);
+    --shadow-overlay: 0 12px 32px rgba(0, 0, 0, 0.48);
+  }
+}
