@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://devspace-snowy.vercel.app/sitemap.xml
