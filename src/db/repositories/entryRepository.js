@@ -11,11 +11,17 @@ export const entryRepository = {
   },
 
   listChildren(projectId, parentId = null) {
-    return db.entries.where("[projectId+parentId]").equals([projectId, parentId]).toArray();
+    return db.entries
+      .where("[projectId+parentId]")
+      .equals([projectId, parentId])
+      .toArray();
   },
 
   async listRecentFiles(limit = 8) {
-    const files = await db.entries.where("type").equals("file").sortBy("updatedAt");
+    const files = await db.entries
+      .where("type")
+      .equals("file")
+      .sortBy("updatedAt");
     return files.reverse().slice(0, limit);
   },
 
@@ -82,7 +88,14 @@ export const entryRepository = {
     return db.entries.get(id);
   },
 
-  async create({ projectId, parentId = null, name, type, language = null, content = "" }) {
+  async create({
+    projectId,
+    parentId = null,
+    name,
+    type,
+    language = null,
+    content = "",
+  }) {
     const entry = {
       id: crypto.randomUUID(),
       projectId,
@@ -117,9 +130,13 @@ export const entryRepository = {
     const entry = await db.entries.get(id);
     if (!entry) return;
 
-    if (entry.id === newParentId) throw new Error("Can't move an item into itself.");
+    if (entry.id === newParentId)
+      throw new Error("Can't move an item into itself.");
     if (entry.type === "folder") {
-      const siblings = await db.entries.where("projectId").equals(entry.projectId).toArray();
+      const siblings = await db.entries
+        .where("projectId")
+        .equals(entry.projectId)
+        .toArray();
       if (newParentId && isDescendant(siblings, newParentId, entry.id)) {
         throw new Error("Can't move a folder into its own subfolder.");
       }
@@ -135,9 +152,13 @@ export const entryRepository = {
 
     await db.transaction("rw", db.entries, db.projects, async () => {
       if (entry.type === "folder") {
-        const siblings = await db.entries.where("projectId").equals(entry.projectId).toArray();
+        const siblings = await db.entries
+          .where("projectId")
+          .equals(entry.projectId)
+          .toArray();
         const descendantIds = getDescendantIds(siblings, id);
-        if (descendantIds.length > 0) await db.entries.bulkDelete(descendantIds);
+        if (descendantIds.length > 0)
+          await db.entries.bulkDelete(descendantIds);
       }
       await db.entries.delete(id);
       await db.projects.update(entry.projectId, { updatedAt: now() });
@@ -154,17 +175,24 @@ export const entryRepository = {
       await db.entries.add({
         ...entry,
         id: newId,
-        name: entry.type === "file" ? `${entry.name} copy` : `${entry.name} copy`,
+        name:
+          entry.type === "file" ? `${entry.name} copy` : `${entry.name} copy`,
         createdAt: timestamp,
         updatedAt: timestamp,
       });
 
       if (entry.type === "folder") {
-        const siblings = await db.entries.where("projectId").equals(entry.projectId).toArray();
+        const siblings = await db.entries
+          .where("projectId")
+          .equals(entry.projectId)
+          .toArray();
         const descendantIds = getDescendantIds(siblings, id);
         const idMap = new Map([[id, newId]]);
-        const descendants = siblings.filter((e) => descendantIds.includes(e.id));
-        for (const descendant of descendants) idMap.set(descendant.id, crypto.randomUUID());
+        const descendants = siblings.filter((e) =>
+          descendantIds.includes(e.id),
+        );
+        for (const descendant of descendants)
+          idMap.set(descendant.id, crypto.randomUUID());
 
         const clones = descendants.map((descendant) => ({
           ...descendant,

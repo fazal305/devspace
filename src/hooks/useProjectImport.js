@@ -26,7 +26,7 @@ export function useProjectImport(onNavigateView) {
         const warningCount = stats.warnings.length;
         notify(
           `Import complete — ${stats.filesImported} file${stats.filesImported === 1 ? "" : "s"}, ${stats.foldersImported} folder${stats.foldersImported === 1 ? "" : "s"}, ${stats.skipped} skipped${warningCount ? `, ${warningCount} warning${warningCount === 1 ? "" : "s"}` : ""}`,
-          { type: warningCount ? "warning" : "success", duration: 5000 }
+          { type: warningCount ? "warning" : "success", duration: 5000 },
         );
         await openProject(project.id);
         onNavigateView?.("files");
@@ -36,7 +36,7 @@ export function useProjectImport(onNavigateView) {
         setIsImporting(false);
       }
     },
-    [notify, openProject, onNavigateView]
+    [notify, openProject, onNavigateView],
   );
 
   return { isImporting, importFromFile };

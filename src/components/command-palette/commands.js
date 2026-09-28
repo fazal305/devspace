@@ -5,15 +5,60 @@ export function buildCommands(ctx) {
   const activeTab = ctx.openTabs.find((tab) => tab.entryId === ctx.activeTabId);
 
   const commands = [
-    { id: "new-project", label: "New Project", group: "Projects", run: ctx.openCreateProjectDialog },
-    { id: "import-project", label: "Import Project", group: "Projects", run: ctx.openImportPicker },
-    { id: "browse-projects", label: "Browse Projects", group: "Navigate", run: () => ctx.onNavigateView("projects") },
-    { id: "browse-files", label: "Browse Files", group: "Navigate", run: () => ctx.onNavigateView("files") },
-    { id: "search-workspace", label: "Search Workspace", group: "Navigate", run: () => ctx.onNavigateView("search") },
-    { id: "browse-snippets", label: "Open Snippets", group: "Navigate", run: () => ctx.onNavigateView("snippets") },
-    { id: "new-snippet", label: "New Snippet", group: "Snippets", run: ctx.openCreateSnippetDialog },
-    { id: "toggle-theme", label: "Toggle Theme", group: "Preferences", run: ctx.cycleTheme },
-    { id: "open-settings", label: "Open Settings", group: "Preferences", run: ctx.openSettingsDialog },
+    {
+      id: "new-project",
+      label: "New Project",
+      group: "Projects",
+      run: ctx.openCreateProjectDialog,
+    },
+    {
+      id: "import-project",
+      label: "Import Project",
+      group: "Projects",
+      run: ctx.openImportPicker,
+    },
+    {
+      id: "browse-projects",
+      label: "Browse Projects",
+      group: "Navigate",
+      run: () => ctx.onNavigateView("projects"),
+    },
+    {
+      id: "browse-files",
+      label: "Browse Files",
+      group: "Navigate",
+      run: () => ctx.onNavigateView("files"),
+    },
+    {
+      id: "search-workspace",
+      label: "Search Workspace",
+      group: "Navigate",
+      run: () => ctx.onNavigateView("search"),
+    },
+    {
+      id: "browse-snippets",
+      label: "Open Snippets",
+      group: "Navigate",
+      run: () => ctx.onNavigateView("snippets"),
+    },
+    {
+      id: "new-snippet",
+      label: "New Snippet",
+      group: "Snippets",
+      run: ctx.openCreateSnippetDialog,
+    },
+    {
+      id: "toggle-theme",
+      label: "Toggle Theme",
+      group: "Preferences",
+      run: ctx.cycleTheme,
+    },
+    {
+      id: "open-settings",
+      label: "Open Settings",
+      group: "Preferences",
+      run: ctx.openSettingsDialog,
+    },
     {
       id: "show-performance",
       label: "Show Performance",
@@ -23,7 +68,12 @@ export function buildCommands(ctx) {
         ctx.updateSetting("bottomPanelCollapsed", false);
       },
     },
-    { id: "clear-console", label: "Clear Console", group: "Panels", run: ctx.clearLogs },
+    {
+      id: "clear-console",
+      label: "Clear Console",
+      group: "Panels",
+      run: ctx.clearLogs,
+    },
   ];
 
   if (activeTab?.isDirty) {
@@ -36,11 +86,21 @@ export function buildCommands(ctx) {
   }
 
   if (ctx.openTabs.length > 0) {
-    commands.push({ id: "close-all-tabs", label: "Close All Tabs", group: "Editor", run: ctx.closeAllTabs });
+    commands.push({
+      id: "close-all-tabs",
+      label: "Close All Tabs",
+      group: "Editor",
+      run: ctx.closeAllTabs,
+    });
   }
 
   if (ctx.activeProjectId) {
-    commands.push({ id: "export-project", label: "Export Active Project", group: "Projects", run: ctx.exportActiveProject });
+    commands.push({
+      id: "export-project",
+      label: "Export Active Project",
+      group: "Projects",
+      run: ctx.exportActiveProject,
+    });
   }
 
   return commands;

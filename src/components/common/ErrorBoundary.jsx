@@ -20,7 +20,8 @@ export class ErrorBoundary extends Component {
       <div className={styles.wrapper} role="alert">
         <p className={styles.title}>Something went wrong</p>
         <p className={styles.description}>
-          DevSpace hit an unexpected error. Your projects are safe in local storage — reloading usually resolves this.
+          DevSpace hit an unexpected error. Your projects are safe in local
+          storage — reloading usually resolves this.
         </p>
         <Button variant="primary" onClick={() => window.location.reload()}>
           Reload DevSpace

@@ -55,32 +55,45 @@ export function PerformancePanel() {
       <div className={styles.metrics}>
         <div className={styles.metric}>
           <span className={styles.metricLabel}>FPS</span>
-          <span className={styles.metricValue}>{fps === null ? "Measuring…" : fps}</span>
+          <span className={styles.metricValue}>
+            {fps === null ? "Measuring…" : fps}
+          </span>
         </div>
         <div className={styles.metric}>
           <span className={styles.metricLabel}>Page load time</span>
-          <span className={styles.metricValue}>{loadTime === null ? NOT_AVAILABLE : formatMs(loadTime)}</span>
+          <span className={styles.metricValue}>
+            {loadTime === null ? NOT_AVAILABLE : formatMs(loadTime)}
+          </span>
         </div>
         <div className={styles.metric}>
           <span className={styles.metricLabel}>Memory used</span>
-          <span className={styles.metricValue}>{memory ? formatBytes(memory.usedJSHeapSize) : NOT_AVAILABLE}</span>
+          <span className={styles.metricValue}>
+            {memory ? formatBytes(memory.usedJSHeapSize) : NOT_AVAILABLE}
+          </span>
         </div>
         <div className={styles.metric}>
           <span className={styles.metricLabel}>Memory limit</span>
-          <span className={styles.metricValue}>{memory ? formatBytes(memory.jsHeapSizeLimit) : NOT_AVAILABLE}</span>
+          <span className={styles.metricValue}>
+            {memory ? formatBytes(memory.jsHeapSizeLimit) : NOT_AVAILABLE}
+          </span>
         </div>
       </div>
 
       <div className={styles.log}>
         <div className={styles.logHeader}>Recorded operations</div>
         {recentEntries.length === 0 ? (
-          <p className={styles.empty}>Worker and IndexedDB timings will appear here as you search, save, and import.</p>
+          <p className={styles.empty}>
+            Worker and IndexedDB timings will appear here as you search, save,
+            and import.
+          </p>
         ) : (
           <ul className={styles.list}>
             {recentEntries.map((entry) => (
               <li key={entry.id} className={styles.row}>
                 <span className={styles.rowLabel}>{entry.label}</span>
-                <span className={styles.rowValue}>{formatMs(entry.durationMs)}</span>
+                <span className={styles.rowValue}>
+                  {formatMs(entry.durationMs)}
+                </span>
               </li>
             ))}
           </ul>

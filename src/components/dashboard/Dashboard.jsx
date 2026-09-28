@@ -40,7 +40,9 @@ export function Dashboard({ onNavigateView }) {
     <div className={styles.dashboard}>
       <div className={styles.header}>
         <h1 className={styles.title}>Workspace</h1>
-        <p className={styles.subtitle}>Everything here lives in this browser — nothing leaves your machine.</p>
+        <p className={styles.subtitle}>
+          Everything here lives in this browser — nothing leaves your machine.
+        </p>
       </div>
 
       <div className={styles.statRow}>
@@ -49,11 +51,19 @@ export function Dashboard({ onNavigateView }) {
           <span className={styles.statLabel}>Projects</span>
         </div>
         <div className={styles.stat}>
-          <span className={styles.statValue}>{storage.isSupported ? formatBytes(storage.usage) : "—"}</span>
-          <span className={styles.statLabel}>{storage.isSupported ? "Storage used" : "Storage — not available in this browser"}</span>
+          <span className={styles.statValue}>
+            {storage.isSupported ? formatBytes(storage.usage) : "—"}
+          </span>
+          <span className={styles.statLabel}>
+            {storage.isSupported
+              ? "Storage used"
+              : "Storage — not available in this browser"}
+          </span>
         </div>
         <div className={styles.stat}>
-          <span className={`${styles.statValue} ${isOnline ? styles.online : styles.offline}`}>
+          <span
+            className={`${styles.statValue} ${isOnline ? styles.online : styles.offline}`}
+          >
             {isOnline ? "Online" : "Offline"}
           </span>
           <span className={styles.statLabel}>Connection</span>
@@ -80,7 +90,10 @@ export function Dashboard({ onNavigateView }) {
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Recent Projects</h2>
           {recentProjects.length === 0 ? (
-            <EmptyState title="No projects yet" description="Create your first project to get started." />
+            <EmptyState
+              title="No projects yet"
+              description="Create your first project to get started."
+            />
           ) : (
             <ul className={styles.cardList}>
               {recentProjects.map((project) => (
@@ -94,7 +107,9 @@ export function Dashboard({ onNavigateView }) {
                     }}
                   >
                     <span className={styles.cardTitle}>{project.name}</span>
-                    <span className={styles.cardMeta}>Updated {formatRelativeTime(project.updatedAt)}</span>
+                    <span className={styles.cardMeta}>
+                      Updated {formatRelativeTime(project.updatedAt)}
+                    </span>
                   </button>
                 </li>
               ))}
@@ -105,7 +120,10 @@ export function Dashboard({ onNavigateView }) {
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Recently Modified Files</h2>
           {recentFiles.length === 0 ? (
-            <EmptyState title="No files yet" description="Files you edit will show up here." />
+            <EmptyState
+              title="No files yet"
+              description="Files you edit will show up here."
+            />
           ) : (
             <ul className={styles.cardList}>
               {recentFiles.map((file) => (
@@ -120,7 +138,8 @@ export function Dashboard({ onNavigateView }) {
                   >
                     <span className={styles.cardTitle}>{file.name}</span>
                     <span className={styles.cardMeta}>
-                      {projectNameById.get(file.projectId) ?? "Unknown project"} · {formatRelativeTime(file.updatedAt)}
+                      {projectNameById.get(file.projectId) ?? "Unknown project"}{" "}
+                      · {formatRelativeTime(file.updatedAt)}
                     </span>
                   </button>
                 </li>
@@ -132,12 +151,19 @@ export function Dashboard({ onNavigateView }) {
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Favorite Snippets</h2>
           {favoriteSnippets.length === 0 ? (
-            <EmptyState title="No snippets yet" description="Save reusable code snippets here." />
+            <EmptyState
+              title="No snippets yet"
+              description="Save reusable code snippets here."
+            />
           ) : (
             <ul className={styles.cardList}>
               {favoriteSnippets.map((snippet) => (
                 <li key={snippet.id}>
-                  <button type="button" className={styles.card} onClick={() => onNavigateView("snippets")}>
+                  <button
+                    type="button"
+                    className={styles.card}
+                    onClick={() => onNavigateView("snippets")}
+                  >
                     <span className={styles.cardTitle}>{snippet.title}</span>
                     <span className={styles.cardMeta}>{snippet.language}</span>
                   </button>
@@ -148,7 +174,10 @@ export function Dashboard({ onNavigateView }) {
         </section>
       </div>
 
-      <CreateProjectDialog open={isCreateOpen} onClose={() => setIsCreateOpen(false)} />
+      <CreateProjectDialog
+        open={isCreateOpen}
+        onClose={() => setIsCreateOpen(false)}
+      />
     </div>
   );
 }

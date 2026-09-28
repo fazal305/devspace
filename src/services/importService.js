@@ -6,10 +6,39 @@ import { detectLanguage } from "../utils/languageConfig";
 const METADATA_PATH = ".devspace/project.json";
 const MAX_FILE_BYTES = 2 * 1024 * 1024; // 2MB — keeps IndexedDB rows and the editor responsive
 const BINARY_EXTENSIONS = new Set([
-  "png", "jpg", "jpeg", "gif", "ico", "bmp", "webp", "pdf", "zip", "gz", "tar",
-  "woff", "woff2", "ttf", "eot", "otf", "mp3", "mp4", "mov", "avi", "exe", "dll", "so", "bin", "class", "jar",
+  "png",
+  "jpg",
+  "jpeg",
+  "gif",
+  "ico",
+  "bmp",
+  "webp",
+  "pdf",
+  "zip",
+  "gz",
+  "tar",
+  "woff",
+  "woff2",
+  "ttf",
+  "eot",
+  "otf",
+  "mp3",
+  "mp4",
+  "mov",
+  "avi",
+  "exe",
+  "dll",
+  "so",
+  "bin",
+  "class",
+  "jar",
 ]);
-const IGNORED_PATH_SEGMENTS = new Set(["__MACOSX", ".DS_Store", ".git", "node_modules"]);
+const IGNORED_PATH_SEGMENTS = new Set([
+  "__MACOSX",
+  ".DS_Store",
+  ".git",
+  "node_modules",
+]);
 const RESERVED_NAME_CHARS = /[\\:*?"<>|]/;
 
 function sanitizeSegment(segment) {
@@ -77,7 +106,9 @@ export async function parseProjectArchive(file) {
       try {
         metadata = JSON.parse(await entry.async("string"));
       } catch {
-        warnings.push("Project metadata was present but couldn't be read — using defaults instead.");
+        warnings.push(
+          "Project metadata was present but couldn't be read — using defaults instead.",
+        );
       }
       continue;
     }
@@ -93,25 +124,39 @@ export async function parseProjectArchive(file) {
       continue;
     }
 
-    rawFiles.push({ path, content: new TextDecoder("utf-8", { fatal: false }).decode(bytes) });
+    rawFiles.push({
+      path,
+      content: new TextDecoder("utf-8", { fatal: false }).decode(bytes),
+    });
   }
 
-  if (rawFiles.length === 0) throw new Error("No importable text files were found in the archive.");
+  if (rawFiles.length === 0)
+    throw new Error("No importable text files were found in the archive.");
 
   const { root, strip } = stripCommonRoot(rawFiles.map((f) => f.path));
-  const files = rawFiles.map((f) => ({ path: strip(f.path), language: detectLanguage(f.path), content: f.content }));
+  const files = rawFiles.map((f) => ({
+    path: strip(f.path),
+    language: detectLanguage(f.path),
+    content: f.content,
+  }));
 
   const folderPaths = new Set();
   for (const f of files) {
     const segments = f.path.split("/").slice(0, -1);
-    for (let i = 1; i <= segments.length; i += 1) folderPaths.add(segments.slice(0, i).join("/"));
+    for (let i = 1; i <= segments.length; i += 1)
+      folderPaths.add(segments.slice(0, i).join("/"));
   }
 
   return {
     suggestedName: metadata?.name ?? root ?? file.name.replace(/\.zip$/i, ""),
     metadata,
     files,
-    stats: { filesImported: files.length, foldersImported: folderPaths.size, skipped, warnings },
+    stats: {
+      filesImported: files.length,
+      foldersImported: folderPaths.size,
+      skipped,
+      warnings,
+    },
   };
 }
 

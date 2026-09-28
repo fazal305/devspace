@@ -3,10 +3,15 @@ import { db } from "../database";
 const MAX_TRACKED = 20;
 
 async function trim(type) {
-  const items = await db.recentItems.where("type").equals(type).sortBy("openedAt");
+  const items = await db.recentItems
+    .where("type")
+    .equals(type)
+    .sortBy("openedAt");
   const excess = items.length - MAX_TRACKED;
   if (excess > 0) {
-    await db.recentItems.bulkDelete(items.slice(0, excess).map((item) => item.id));
+    await db.recentItems.bulkDelete(
+      items.slice(0, excess).map((item) => item.id),
+    );
   }
 }
 
@@ -34,12 +39,18 @@ export const recentItemsRepository = {
   },
 
   async listRecentProjects(limit = 5) {
-    const items = await db.recentItems.where("type").equals("project").sortBy("openedAt");
+    const items = await db.recentItems
+      .where("type")
+      .equals("project")
+      .sortBy("openedAt");
     return items.reverse().slice(0, limit);
   },
 
   async listRecentFiles(limit = 8) {
-    const items = await db.recentItems.where("type").equals("file").sortBy("openedAt");
+    const items = await db.recentItems
+      .where("type")
+      .equals("file")
+      .sortBy("openedAt");
     return items.reverse().slice(0, limit);
   },
 };

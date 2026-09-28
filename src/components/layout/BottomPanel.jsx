@@ -8,8 +8,14 @@ import { PerformancePanel } from "../performance/PerformancePanel";
 import styles from "./BottomPanel.module.css";
 
 const TAB_EMPTY_STATE = {
-  output: { title: "No output yet", description: "Results from background operations will appear here." },
-  problems: { title: "No problems detected", description: "Issues found in your files will be listed here." },
+  output: {
+    title: "No output yet",
+    description: "Results from background operations will appear here.",
+  },
+  problems: {
+    title: "No problems detected",
+    description: "Issues found in your files will be listed here.",
+  },
 };
 
 export function BottomPanel() {
@@ -22,7 +28,11 @@ export function BottomPanel() {
   return (
     <section className={styles.bottomPanel} aria-label="Bottom panel">
       <div className={styles.tabBar}>
-        <div className={styles.tabs} role="tablist" aria-label="Bottom panel tabs">
+        <div
+          className={styles.tabs}
+          role="tablist"
+          aria-label="Bottom panel tabs"
+        >
           {BOTTOM_PANEL_TABS.map((tab) => (
             <button
               key={tab.id}
@@ -48,7 +58,9 @@ export function BottomPanel() {
       </div>
       {!collapsed && (
         <div className={styles.content} role="tabpanel">
-          {activeTab === "console" && <ConsoleLog logs={logs} onClear={clearLogs} />}
+          {activeTab === "console" && (
+            <ConsoleLog logs={logs} onClear={clearLogs} />
+          )}
           {activeTab === "performance" && <PerformancePanel />}
           {(activeTab === "output" || activeTab === "problems") && empty && (
             <EmptyState title={empty.title} description={empty.description} />

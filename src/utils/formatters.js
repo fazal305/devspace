@@ -7,7 +7,9 @@ const RELATIVE_UNITS = [
   { limit: 31557600, divisor: 2629800, unit: "month" },
 ];
 
-const relativeFormatter = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
+const relativeFormatter = new Intl.RelativeTimeFormat("en", {
+  numeric: "auto",
+});
 
 export function formatRelativeTime(isoString) {
   const then = new Date(isoString).getTime();
@@ -28,7 +30,10 @@ export function formatBytes(bytes) {
   if (!Number.isFinite(bytes) || bytes < 0) return "Unknown";
   if (bytes === 0) return "0 B";
   const units = ["B", "KB", "MB", "GB"];
-  const exponent = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+  const exponent = Math.min(
+    Math.floor(Math.log(bytes) / Math.log(1024)),
+    units.length - 1,
+  );
   const value = bytes / 1024 ** exponent;
   return `${exponent === 0 ? value : value.toFixed(1)} ${units[exponent]}`;
 }

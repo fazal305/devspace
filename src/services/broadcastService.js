@@ -2,7 +2,8 @@
 // consistent — e.g. deleting a project in one tab needs to close it in
 // another tab that happens to have it open, since that's plain React state
 // (WorkspaceContext), not something Dexie's live queries alone would catch.
-export const isBroadcastSupported = typeof window !== "undefined" && "BroadcastChannel" in window;
+export const isBroadcastSupported =
+  typeof window !== "undefined" && "BroadcastChannel" in window;
 
 const channel = isBroadcastSupported ? new BroadcastChannel("devspace") : null;
 

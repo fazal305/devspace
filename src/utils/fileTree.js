@@ -11,7 +11,8 @@ export function buildTree(entries, parentId = null) {
     })
     .map((entry) => ({
       ...entry,
-      children: entry.type === "folder" ? buildTree(entries, entry.id) : undefined,
+      children:
+        entry.type === "folder" ? buildTree(entries, entry.id) : undefined,
     }));
 }
 

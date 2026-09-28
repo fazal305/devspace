@@ -13,7 +13,10 @@ export function registerServiceWorker(onUpdateAvailable) {
           const installing = registration.installing;
           if (!installing) return;
           installing.addEventListener("statechange", () => {
-            if (installing.state === "installed" && navigator.serviceWorker.controller) {
+            if (
+              installing.state === "installed" &&
+              navigator.serviceWorker.controller
+            ) {
               onUpdateAvailable?.();
             }
           });

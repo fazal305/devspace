@@ -51,24 +51,38 @@ export function createEditorTheme() {
       borderRight: "1px solid var(--color-border)",
     },
     ".cm-activeLine": { backgroundColor: "var(--color-surface-sunken)" },
-    ".cm-activeLineGutter": { backgroundColor: "var(--color-surface-sunken)", color: "var(--color-text-muted)" },
+    ".cm-activeLineGutter": {
+      backgroundColor: "var(--color-surface-sunken)",
+      color: "var(--color-text-muted)",
+    },
     ".cm-matchingBracket, .cm-nonmatchingBracket": {
       backgroundColor: "var(--color-primary-muted)",
       outline: "1px solid var(--color-primary)",
     },
     ".cm-searchMatch": { backgroundColor: "var(--color-warning-muted)" },
-    ".cm-searchMatch.cm-searchMatch-selected": { backgroundColor: "var(--color-warning)" },
+    ".cm-searchMatch.cm-searchMatch-selected": {
+      backgroundColor: "var(--color-warning)",
+    },
     "&.cm-editor.cm-focused": { outline: "none" },
   });
 }
 
 const highlightStyle = HighlightStyle.define([
   { tag: t.comment, color: "var(--color-text-faint)", fontStyle: "italic" },
-  { tag: [t.keyword, t.controlKeyword, t.operatorKeyword], color: "var(--color-primary)" },
+  {
+    tag: [t.keyword, t.controlKeyword, t.operatorKeyword],
+    color: "var(--color-primary)",
+  },
   { tag: [t.string, t.special(t.string)], color: "var(--color-success)" },
   { tag: [t.number, t.bool, t.null], color: "var(--color-warning)" },
-  { tag: [t.function(t.variableName), t.function(t.propertyName)], color: "var(--color-primary)" },
-  { tag: [t.definition(t.variableName), t.definition(t.propertyName)], color: "var(--color-text)" },
+  {
+    tag: [t.function(t.variableName), t.function(t.propertyName)],
+    color: "var(--color-primary)",
+  },
+  {
+    tag: [t.definition(t.variableName), t.definition(t.propertyName)],
+    color: "var(--color-text)",
+  },
   { tag: t.propertyName, color: "var(--color-text)" },
   { tag: t.typeName, color: "var(--color-primary)" },
   { tag: t.tagName, color: "var(--color-primary)" },

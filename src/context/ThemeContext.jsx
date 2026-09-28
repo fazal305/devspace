@@ -1,4 +1,11 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { STORAGE_KEYS } from "../utils/constants";
 
 const ThemeContext = createContext(null);
@@ -6,7 +13,8 @@ const ThemeContext = createContext(null);
 function readStoredTheme() {
   try {
     const stored = localStorage.getItem(STORAGE_KEYS.THEME);
-    if (stored === "light" || stored === "dark" || stored === "system") return stored;
+    if (stored === "light" || stored === "dark" || stored === "system")
+      return stored;
   } catch {
     // localStorage unavailable (private mode, disabled storage) — fall back silently
   }
@@ -29,7 +37,9 @@ export function ThemeProvider({ children }) {
 
   const value = useMemo(() => ({ theme, setTheme }), [theme, setTheme]);
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+  );
 }
 
 export function useTheme() {

@@ -10,7 +10,12 @@ export function TextField({ label, error, className = "", ...props }) {
           {label}
         </label>
       )}
-      <input id={id} className={styles.input} aria-invalid={!!error} {...props} />
+      <input
+        id={id}
+        className={styles.input}
+        aria-invalid={!!error}
+        {...props}
+      />
       {error && (
         <span className={styles.error} role="alert">
           {error}

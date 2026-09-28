@@ -11,7 +11,8 @@ export function useWebNotification() {
     if (!isSupported || document.visibilityState !== "hidden") return;
 
     let permission = Notification.permission;
-    if (permission === "default") permission = await Notification.requestPermission();
+    if (permission === "default")
+      permission = await Notification.requestPermission();
     if (permission === "granted") new Notification(title, options);
   }, []);
 

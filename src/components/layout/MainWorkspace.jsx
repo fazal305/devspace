@@ -7,7 +7,9 @@ import styles from "./MainWorkspace.module.css";
 // CodeMirror + its language packages are the single heaviest dependency in
 // the app — deferring them until a project is actually open keeps the
 // initial bundle (and first paint) lean for the common "browsing" case.
-const EditorArea = lazy(() => import("../editor/EditorArea").then((m) => ({ default: m.EditorArea })));
+const EditorArea = lazy(() =>
+  import("../editor/EditorArea").then((m) => ({ default: m.EditorArea })),
+);
 
 export function MainWorkspace({ onNavigateView }) {
   const { activeProjectId } = useWorkspace();

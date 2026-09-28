@@ -17,11 +17,19 @@ export function SearchPanel() {
   const [allEntries, setAllEntries] = useState([]);
   const requestSeq = useRef(0);
 
-  const worker = useWorker(() => new Worker(new URL("../../workers/search.worker.js", import.meta.url), { type: "module" }));
+  const worker = useWorker(
+    () =>
+      new Worker(new URL("../../workers/search.worker.js", import.meta.url), {
+        type: "module",
+      }),
+  );
   const { openProject, openFile } = useWorkspace();
   const { notify } = useNotifications();
   const { data: projects } = useProjects();
-  const projectNameById = useMemo(() => new Map(projects.map((p) => [p.id, p.name])), [projects]);
+  const projectNameById = useMemo(
+    () => new Map(projects.map((p) => [p.id, p.name])),
+    [projects],
+  );
 
   async function runSearch(value) {
     const trimmed = value.trim();
@@ -34,8 +42,14 @@ export function SearchPanel() {
     setIsSearching(true);
     try {
       const dbStartedAt = performance.now();
-      const [entries, files] = await Promise.all([entryRepository.listAll(), entryRepository.listAllFiles()]);
-      recordPerformanceEntry("IndexedDB read (search)", performance.now() - dbStartedAt);
+      const [entries, files] = await Promise.all([
+        entryRepository.listAll(),
+        entryRepository.listAllFiles(),
+      ]);
+      recordPerformanceEntry(
+        "IndexedDB read (search)",
+        performance.now() - dbStartedAt,
+      );
 
       const workerStartedAt = performance.now();
       const matches = await worker.call("search", { query: trimmed, files });
@@ -45,12 +59,17 @@ export function SearchPanel() {
 
       setAllEntries(entries);
       setResults(matches);
-      notify(`Search completed: ${matches.length} match${matches.length === 1 ? "" : "es"} in ${Math.round(workerDuration)}ms`, {
-        type: "info",
-        duration: 3000,
-      });
+      notify(
+        `Search completed: ${matches.length} match${matches.length === 1 ? "" : "es"} in ${Math.round(workerDuration)}ms`,
+        {
+          type: "info",
+          duration: 3000,
+        },
+      );
     } catch {
-      notify("Search failed — the search worker may be unavailable.", { type: "error" });
+      notify("Search failed — the search worker may be unavailable.", {
+        type: "error",
+      });
     } finally {
       if (seq === requestSeq.current) setIsSearching(false);
     }
@@ -73,7 +92,8 @@ export function SearchPanel() {
     if (!results) return [];
     const byEntry = new Map();
     for (const match of results) {
-      if (!byEntry.has(match.entryId)) byEntry.set(match.entryId, { ...match, lines: [] });
+      if (!byEntry.has(match.entryId))
+        byEntry.set(match.entryId, { ...match, lines: [] });
       byEntry.get(match.entryId).lines.push(match);
     }
     return Array.from(byEntry.values());
@@ -95,15 +115,22 @@ export function SearchPanel() {
 
       <div className={styles.results}>
         {results === null && (
-          <EmptyState title="Search your workspace" description="Find text across every file in every project." />
+          <EmptyState
+            title="Search your workspace"
+            description="Find text across every file in every project."
+          />
         )}
         {results !== null && grouped.length === 0 && !isSearching && (
-          <EmptyState title="No search results" description="Try a different search term." />
+          <EmptyState
+            title="No search results"
+            description="Try a different search term."
+          />
         )}
         {grouped.map((entry) => (
           <div key={entry.entryId} className={styles.fileGroup}>
             <div className={styles.filePath}>
-              {projectNameById.get(entry.projectId) ?? "Unknown project"} / {getEntryPath(allEntries, entry.entryId)}
+              {projectNameById.get(entry.projectId) ?? "Unknown project"} /{" "}
+              {getEntryPath(allEntries, entry.entryId)}
             </div>
             {entry.lines.map((match) => (
               <button

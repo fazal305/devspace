@@ -6,7 +6,9 @@
   height: 28px;
   border-radius: var(--radius-md);
   color: var(--color-text-muted);
-  transition: background-color var(--transition-fast), color var(--transition-fast);
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
 }
 
 .iconButton:hover:not(:disabled) {

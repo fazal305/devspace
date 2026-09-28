@@ -1,4 +1,11 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { STORAGE_KEYS } from "../utils/constants";
 
 const SettingsContext = createContext(null);
@@ -35,13 +42,21 @@ export function SettingsProvider({ children }) {
     setSettings((prev) => ({ ...prev, [key]: value }));
   }, []);
 
-  const value = useMemo(() => ({ settings, updateSetting }), [settings, updateSetting]);
+  const value = useMemo(
+    () => ({ settings, updateSetting }),
+    [settings, updateSetting],
+  );
 
-  return <SettingsContext.Provider value={value}>{children}</SettingsContext.Provider>;
+  return (
+    <SettingsContext.Provider value={value}>
+      {children}
+    </SettingsContext.Provider>
+  );
 }
 
 export function useSettings() {
   const ctx = useContext(SettingsContext);
-  if (!ctx) throw new Error("useSettings must be used within a SettingsProvider");
+  if (!ctx)
+    throw new Error("useSettings must be used within a SettingsProvider");
   return ctx;
 }

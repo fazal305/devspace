@@ -7,7 +7,18 @@ const VARIANT_CLASS = {
   danger: styles.danger,
 };
 
-export function Button({ variant = "secondary", type = "button", className = "", ...props }) {
+export function Button({
+  variant = "secondary",
+  type = "button",
+  className = "",
+  ...props
+}) {
   const variantClass = VARIANT_CLASS[variant] ?? styles.secondary;
-  return <button type={type} className={`${styles.button} ${variantClass} ${className}`} {...props} />;
+  return (
+    <button
+      type={type}
+      className={`${styles.button} ${variantClass} ${className}`}
+      {...props}
+    />
+  );
 }

@@ -14,7 +14,11 @@ import styles from "./FileExplorer.module.css";
 
 export function FileExplorer() {
   const { activeProjectId, openTabs, activeTabId, openFile } = useWorkspace();
-  const { data: entries, isLoading, error } = useProjectEntries(activeProjectId);
+  const {
+    data: entries,
+    isLoading,
+    error,
+  } = useProjectEntries(activeProjectId);
   const { notify } = useNotifications();
 
   const [expandedIds, setExpandedIds] = useState(() => new Set());
@@ -28,16 +32,27 @@ export function FileExplorer() {
 
   const tree = useMemo(() => buildTree(entries), [entries]);
   const dirtyEntryIds = useMemo(
-    () => new Set(openTabs.filter((tab) => tab.isDirty).map((tab) => tab.entryId)),
-    [openTabs]
+    () =>
+      new Set(openTabs.filter((tab) => tab.isDirty).map((tab) => tab.entryId)),
+    [openTabs],
   );
 
   if (!activeProjectId) {
-    return <EmptyState title="No project open" description="Open or create a project to see its files here." />;
+    return (
+      <EmptyState
+        title="No project open"
+        description="Open or create a project to see its files here."
+      />
+    );
   }
 
   if (error) {
-    return <EmptyState title="Local storage unavailable" description="DevSpace couldn't reach IndexedDB in this browser." />;
+    return (
+      <EmptyState
+        title="Local storage unavailable"
+        description="DevSpace couldn't reach IndexedDB in this browser."
+      />
+    );
   }
 
   function startCreate(parentId, type) {
@@ -73,7 +88,9 @@ export function FileExplorer() {
 
   async function handleDelete() {
     await entryRepository.remove(pendingDelete.id);
-    notify(`${pendingDelete.type === "folder" ? "Folder" : "File"} deleted`, { type: "info" });
+    notify(`${pendingDelete.type === "folder" ? "Folder" : "File"} deleted`, {
+      type: "info",
+    });
     setPendingDelete(null);
   }
 
@@ -89,7 +106,10 @@ export function FileExplorer() {
     }
   }
 
-  const descendantCount = pendingDelete?.type === "folder" ? getDescendantIds(entries, pendingDelete.id).length : 0;
+  const descendantCount =
+    pendingDelete?.type === "folder"
+      ? getDescendantIds(entries, pendingDelete.id).length
+      : 0;
 
   const actions = {
     onToggle: (id) =>
@@ -121,15 +141,30 @@ export function FileExplorer() {
     onDrop: handleDrop,
   };
 
-  const ui = { expandedIds, renamingId, renameValue, creatingIn, creatingValue, dirtyEntryIds, activeTabId, dropTargetId };
+  const ui = {
+    expandedIds,
+    renamingId,
+    renameValue,
+    creatingIn,
+    creatingValue,
+    dirtyEntryIds,
+    activeTabId,
+    dropTargetId,
+  };
 
   return (
     <div className={styles.explorer}>
       <div className={styles.toolbar}>
-        <IconButton label="New file at root" onClick={() => startCreate(null, "file")}>
+        <IconButton
+          label="New file at root"
+          onClick={() => startCreate(null, "file")}
+        >
           +📄
         </IconButton>
-        <IconButton label="New folder at root" onClick={() => startCreate(null, "folder")}>
+        <IconButton
+          label="New folder at root"
+          onClick={() => startCreate(null, "folder")}
+        >
           +📁
         </IconButton>
       </div>
@@ -146,7 +181,10 @@ export function FileExplorer() {
         }}
       >
         {!isLoading && tree.length === 0 && !creatingIn && (
-          <EmptyState title="Empty project" description="Create a file or folder to get started." />
+          <EmptyState
+            title="Empty project"
+            description="Create a file or folder to get started."
+          />
         )}
         <ul className={styles.root}>
           {creatingIn?.parentId === null && (
@@ -159,7 +197,11 @@ export function FileExplorer() {
                   autoFocus
                   className={styles.renameInput}
                   value={creatingValue}
-                  placeholder={creatingIn.type === "folder" ? "folder-name" : "file-name.js"}
+                  placeholder={
+                    creatingIn.type === "folder"
+                      ? "folder-name"
+                      : "file-name.js"
+                  }
                   onChange={(e) => setCreatingValue(e.target.value)}
                   onBlur={commitCreate}
                   onKeyDown={(e) => {
@@ -171,7 +213,13 @@ export function FileExplorer() {
             </li>
           )}
           {tree.map((node) => (
-            <EntryRow key={node.id} node={node} depth={0} actions={actions} ui={ui} />
+            <EntryRow
+              key={node.id}
+              node={node}
+              depth={0}
+              actions={actions}
+              ui={ui}
+            />
           ))}
         </ul>
       </div>

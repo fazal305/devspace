@@ -7,7 +7,11 @@ import { entryRepository } from "../../db/repositories/entryRepository";
 import { validateProjectName } from "../../utils/validators";
 import { formatRelativeTime } from "../../utils/formatters";
 import { buildTree } from "../../utils/fileTree";
-import { isFileSystemAccessSupported, pickAndReadDirectory, pickAndWriteProject } from "../../services/fileSystemService";
+import {
+  isFileSystemAccessSupported,
+  pickAndReadDirectory,
+  pickAndWriteProject,
+} from "../../services/fileSystemService";
 import { exportProjectToZip } from "../../services/exportService";
 import { useWebNotification } from "../../hooks/useWebNotification";
 import { EmptyState } from "../common/EmptyState";
@@ -18,7 +22,8 @@ import { CreateProjectDialog } from "./CreateProjectDialog";
 import { ImportProjectButton } from "./ImportProjectButton";
 import styles from "./ProjectsPanel.module.css";
 
-const FS_ACCESS_UNAVAILABLE_TITLE = "The File System Access API isn't supported in this browser.";
+const FS_ACCESS_UNAVAILABLE_TITLE =
+  "The File System Access API isn't supported in this browser.";
 
 export function ProjectsPanel({ onNavigateView }) {
   const { data: projects, isLoading, error } = useProjects();
@@ -60,8 +65,13 @@ export function ProjectsPanel({ onNavigateView }) {
       const { name, files } = await pickAndReadDirectory();
       const project = await projectRepository.create({ name });
       await entryRepository.seedFromTemplate(project.id, files);
-      notify(`Imported "${name}" (${files.length} file${files.length === 1 ? "" : "s"})`, { type: "success" });
-      notifyIfHidden("DevSpace", { body: `Imported "${name}" from your local folder.` });
+      notify(
+        `Imported "${name}" (${files.length} file${files.length === 1 ? "" : "s"})`,
+        { type: "success" },
+      );
+      notifyIfHidden("DevSpace", {
+        body: `Imported "${name}" from your local folder.`,
+      });
       await openProject(project.id);
       onNavigateView?.("files");
     } catch (err) {
@@ -75,8 +85,12 @@ export function ProjectsPanel({ onNavigateView }) {
       const entries = await entryRepository.listByProject(project.id);
       const tree = buildTree(entries);
       await pickAndWriteProject(tree);
-      notify(`Saved "${project.name}" to your local folder`, { type: "success" });
-      notifyIfHidden("DevSpace", { body: `Saved "${project.name}" to your local folder.` });
+      notify(`Saved "${project.name}" to your local folder`, {
+        type: "success",
+      });
+      notifyIfHidden("DevSpace", {
+        body: `Saved "${project.name}" to your local folder.`,
+      });
     } catch (err) {
       if (err.name === "AbortError") return;
       notify(err.message ?? "Couldn't save to that folder.", { type: "error" });
@@ -94,7 +108,12 @@ export function ProjectsPanel({ onNavigateView }) {
   }
 
   if (error) {
-    return <EmptyState title="Local storage unavailable" description="DevSpace couldn't reach IndexedDB in this browser." />;
+    return (
+      <EmptyState
+        title="Local storage unavailable"
+        description="DevSpace couldn't reach IndexedDB in this browser."
+      />
+    );
   }
 
   if (!isLoading && projects.length === 0) {
@@ -111,7 +130,11 @@ export function ProjectsPanel({ onNavigateView }) {
               <Button
                 variant="secondary"
                 disabled={!isFileSystemAccessSupported}
-                title={isFileSystemAccessSupported ? undefined : FS_ACCESS_UNAVAILABLE_TITLE}
+                title={
+                  isFileSystemAccessSupported
+                    ? undefined
+                    : FS_ACCESS_UNAVAILABLE_TITLE
+                }
                 onClick={handleOpenLocalFolder}
               >
                 Open Local Folder
@@ -120,7 +143,10 @@ export function ProjectsPanel({ onNavigateView }) {
             </div>
           }
         />
-        <CreateProjectDialog open={isCreateOpen} onClose={() => setIsCreateOpen(false)} />
+        <CreateProjectDialog
+          open={isCreateOpen}
+          onClose={() => setIsCreateOpen(false)}
+        />
       </>
     );
   }
@@ -128,23 +154,38 @@ export function ProjectsPanel({ onNavigateView }) {
   return (
     <div className={styles.panel}>
       <div className={styles.toolbar}>
-        <button type="button" className={styles.newButton} onClick={() => setIsCreateOpen(true)}>
+        <button
+          type="button"
+          className={styles.newButton}
+          onClick={() => setIsCreateOpen(true)}
+        >
           + New Project
         </button>
         <button
           type="button"
           className={styles.newButton}
           disabled={!isFileSystemAccessSupported}
-          title={isFileSystemAccessSupported ? undefined : FS_ACCESS_UNAVAILABLE_TITLE}
+          title={
+            isFileSystemAccessSupported
+              ? undefined
+              : FS_ACCESS_UNAVAILABLE_TITLE
+          }
           onClick={handleOpenLocalFolder}
         >
           Open Local Folder
         </button>
-        <ImportProjectButton variant="secondary" label="Import from Zip" onNavigateView={onNavigateView} />
+        <ImportProjectButton
+          variant="secondary"
+          label="Import from Zip"
+          onNavigateView={onNavigateView}
+        />
       </div>
       <ul className={styles.list}>
         {projects.map((project) => (
-          <li key={project.id} className={`${styles.item} ${project.id === activeProjectId ? styles.itemActive : ""}`}>
+          <li
+            key={project.id}
+            className={`${styles.item} ${project.id === activeProjectId ? styles.itemActive : ""}`}
+          >
             {renamingId === project.id ? (
               <input
                 autoFocus
@@ -167,7 +208,9 @@ export function ProjectsPanel({ onNavigateView }) {
                 }}
               >
                 <span className={styles.itemName}>{project.name}</span>
-                <span className={styles.itemMeta}>Updated {formatRelativeTime(project.updatedAt)}</span>
+                <span className={styles.itemMeta}>
+                  Updated {formatRelativeTime(project.updatedAt)}
+                </span>
               </button>
             )}
 
@@ -182,7 +225,10 @@ export function ProjectsPanel({ onNavigateView }) {
               <IconButton label="Rename" onClick={() => startRename(project)}>
                 ✎
               </IconButton>
-              <IconButton label="Duplicate" onClick={() => handleDuplicate(project.id)}>
+              <IconButton
+                label="Duplicate"
+                onClick={() => handleDuplicate(project.id)}
+              >
                 ⧉
               </IconButton>
               <IconButton
@@ -192,10 +238,16 @@ export function ProjectsPanel({ onNavigateView }) {
               >
                 💾
               </IconButton>
-              <IconButton label="Export as zip" onClick={() => handleExport(project)}>
+              <IconButton
+                label="Export as zip"
+                onClick={() => handleExport(project)}
+              >
                 ⬇
               </IconButton>
-              <IconButton label="Delete" onClick={() => setPendingDeleteId(project.id)}>
+              <IconButton
+                label="Delete"
+                onClick={() => setPendingDeleteId(project.id)}
+              >
                 🗑
               </IconButton>
             </div>
@@ -203,7 +255,10 @@ export function ProjectsPanel({ onNavigateView }) {
         ))}
       </ul>
 
-      <CreateProjectDialog open={isCreateOpen} onClose={() => setIsCreateOpen(false)} />
+      <CreateProjectDialog
+        open={isCreateOpen}
+        onClose={() => setIsCreateOpen(false)}
+      />
       <ConfirmDialog
         open={pendingDeleteId !== null}
         title="Delete project?"

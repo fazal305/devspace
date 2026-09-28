@@ -31,10 +31,14 @@ export function AppShell() {
 
   useEffect(() => {
     function handleUpdateAvailable() {
-      notify("A new version of DevSpace is available. Reload to update.", { type: "info", duration: 0 });
+      notify("A new version of DevSpace is available. Reload to update.", {
+        type: "info",
+        duration: 0,
+      });
     }
     window.addEventListener("devspace:sw-update", handleUpdateAvailable);
-    return () => window.removeEventListener("devspace:sw-update", handleUpdateAvailable);
+    return () =>
+      window.removeEventListener("devspace:sw-update", handleUpdateAvailable);
   }, [notify]);
 
   useKeyboardShortcuts({
@@ -45,8 +49,11 @@ export function AppShell() {
     "mod+shift+f": () => setActiveView("search"),
     "mod+s": () => {
       if (document.activeElement?.closest(".cm-editor")) return false; // the editor's own keymap already handled it
-      const activeTab = workspace.openTabs.find((tab) => tab.entryId === workspace.activeTabId);
-      if (activeTab?.isDirty) workspace.saveTab(activeTab.entryId, activeTab.draftContent);
+      const activeTab = workspace.openTabs.find(
+        (tab) => tab.entryId === workspace.activeTabId,
+      );
+      if (activeTab?.isDirty)
+        workspace.saveTab(activeTab.entryId, activeTab.draftContent);
     },
     "mod+n": async () => {
       if (!workspace.activeProjectId) return;
@@ -91,7 +98,10 @@ export function AppShell() {
         onNavigateView={setActiveView}
         onOpenSettings={() => setIsSettingsOpen(true)}
       />
-      <SettingsDialog open={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
+      <SettingsDialog
+        open={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+      />
     </div>
   );
 }

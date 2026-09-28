@@ -56,7 +56,8 @@
 
   /* ---- Typography ---- */
   --font-ui: -apple-system, "Segoe UI", system-ui, Roboto, sans-serif;
-  --font-mono: "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+  --font-mono:
+    "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
   --font-size-xs: 11px;
   --font-size-sm: 12.5px;
   --font-size-md: 13.5px;

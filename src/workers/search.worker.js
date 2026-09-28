@@ -26,7 +26,8 @@ function runSearch(query, files) {
 self.onmessage = (event) => {
   const { requestId, type, payload } = event.data;
   try {
-    if (type !== "search") throw new Error(`Unknown search worker task: ${type}`);
+    if (type !== "search")
+      throw new Error(`Unknown search worker task: ${type}`);
     const result = runSearch(payload.query, payload.files);
     self.postMessage({ requestId, result });
   } catch (err) {

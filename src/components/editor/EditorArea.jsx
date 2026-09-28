@@ -25,7 +25,9 @@ export function EditorArea() {
   const tabs = openTabs
     .map((tab) => {
       const entry = entryById.get(tab.entryId);
-      return entry ? { ...tab, name: entry.name, language: entry.language } : null;
+      return entry
+        ? { ...tab, name: entry.name, language: entry.language }
+        : null;
     })
     .filter(Boolean);
   const activeTab = tabs.find((tab) => tab.entryId === activeTabId);
@@ -57,7 +59,13 @@ export function EditorArea() {
 
   return (
     <div className={styles.area}>
-      <EditorTabs tabs={tabs} activeTabId={activeTabId} onSelect={setActiveTab} onClose={requestClose} onCloseAll={requestCloseAll} />
+      <EditorTabs
+        tabs={tabs}
+        activeTabId={activeTabId}
+        onSelect={setActiveTab}
+        onClose={requestClose}
+        onCloseAll={requestCloseAll}
+      />
       <div className={styles.paneWrapper}>
         <EditorPane
           key={activeTab?.entryId ?? "empty"}

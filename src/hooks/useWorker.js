@@ -16,5 +16,7 @@ export function useWorker(createWorker) {
     return () => workerClient.terminate();
   }, []);
 
-  return client ?? { call: () => Promise.reject(new Error("Worker not ready yet")) };
+  return (
+    client ?? { call: () => Promise.reject(new Error("Worker not ready yet")) }
+  );
 }

@@ -15,7 +15,13 @@ import { SnippetFormDialog } from "../snippets/SnippetFormDialog";
 import { buildCommands } from "./commands";
 import styles from "./CommandPalette.module.css";
 
-export function CommandPalette({ isOpen, mode, onClose, onNavigateView, onOpenSettings }) {
+export function CommandPalette({
+  isOpen,
+  mode,
+  onClose,
+  onNavigateView,
+  onOpenSettings,
+}) {
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isCreateProjectOpen, setIsCreateProjectOpen] = useState(false);
@@ -75,16 +81,26 @@ export function CommandPalette({ isOpen, mode, onClose, onNavigateView, onOpenSe
         openSettingsDialog: onOpenSettings,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [workspace.openTabs, workspace.activeTabId, workspace.activeProjectId, theme]
+    [
+      workspace.openTabs,
+      workspace.activeTabId,
+      workspace.activeProjectId,
+      theme,
+    ],
   );
 
   const filteredCommands = useMemo(() => {
     const needle = query.trim().toLowerCase();
     if (!needle) return commands;
-    return commands.filter((c) => c.label.toLowerCase().includes(needle) || c.group.toLowerCase().includes(needle));
+    return commands.filter(
+      (c) =>
+        c.label.toLowerCase().includes(needle) ||
+        c.group.toLowerCase().includes(needle),
+    );
   }, [commands, query]);
 
-  const files = mode === "quickopen" ? projectEntries.filter((e) => e.type === "file") : [];
+  const files =
+    mode === "quickopen" ? projectEntries.filter((e) => e.type === "file") : [];
   const filteredFiles = useMemo(() => {
     const needle = query.trim().toLowerCase();
     if (!needle) return files;
@@ -117,7 +133,11 @@ export function CommandPalette({ isOpen, mode, onClose, onNavigateView, onOpenSe
 
   return (
     <>
-      <Dialog open={isOpen} onClose={onClose} labelledBy="command-palette-title">
+      <Dialog
+        open={isOpen}
+        onClose={onClose}
+        labelledBy="command-palette-title"
+      >
         <div className={styles.palette}>
           <span id="command-palette-title" className={styles.srOnly}>
             {mode === "quickopen" ? "Quick open a file" : "Command palette"}
@@ -125,7 +145,9 @@ export function CommandPalette({ isOpen, mode, onClose, onNavigateView, onOpenSe
           <input
             autoFocus
             className={styles.input}
-            placeholder={mode === "quickopen" ? "Go to file…" : "Type a command…"}
+            placeholder={
+              mode === "quickopen" ? "Go to file…" : "Type a command…"
+            }
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
@@ -136,7 +158,11 @@ export function CommandPalette({ isOpen, mode, onClose, onNavigateView, onOpenSe
           <ul className={styles.list} role="listbox">
             {items.length === 0 && <li className={styles.empty}>No matches</li>}
             {items.map((item, index) => (
-              <li key={item.id} role="option" aria-selected={index === selectedIndex}>
+              <li
+                key={item.id}
+                role="option"
+                aria-selected={index === selectedIndex}
+              >
                 <button
                   type="button"
                   className={`${styles.item} ${index === selectedIndex ? styles.itemActive : ""}`}
@@ -169,8 +195,15 @@ export function CommandPalette({ isOpen, mode, onClose, onNavigateView, onOpenSe
           importFromFile(file);
         }}
       />
-      <CreateProjectDialog open={isCreateProjectOpen} onClose={() => setIsCreateProjectOpen(false)} />
-      <SnippetFormDialog open={isCreateSnippetOpen} snippet={null} onClose={() => setIsCreateSnippetOpen(false)} />
+      <CreateProjectDialog
+        open={isCreateProjectOpen}
+        onClose={() => setIsCreateProjectOpen(false)}
+      />
+      <SnippetFormDialog
+        open={isCreateSnippetOpen}
+        snippet={null}
+        onClose={() => setIsCreateSnippetOpen(false)}
+      />
     </>
   );
 }

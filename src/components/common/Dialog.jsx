@@ -47,7 +47,10 @@ export function Dialog({ open, onClose, title, children, labelledBy }) {
   if (!open) return null;
 
   return createPortal(
-    <div className={styles.backdrop} onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
+    <div
+      className={styles.backdrop}
+      onMouseDown={(e) => e.target === e.currentTarget && onClose()}
+    >
       <div
         ref={panelRef}
         role="dialog"
@@ -66,6 +69,6 @@ export function Dialog({ open, onClose, title, children, labelledBy }) {
         <div className={styles.body}>{children}</div>
       </div>
     </div>,
-    document.body
+    document.body,
   );
 }

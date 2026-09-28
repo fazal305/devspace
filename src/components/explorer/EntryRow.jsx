@@ -39,7 +39,11 @@ export function EntryRow({ node, depth, actions, ui }) {
           tabIndex={-1}
           onClick={() => isFolder && actions.onToggle(node.id)}
         >
-          {isFolder ? (isExpanded ? FOLDER_ICON.expanded : FOLDER_ICON.collapsed) : ""}
+          {isFolder
+            ? isExpanded
+              ? FOLDER_ICON.expanded
+              : FOLDER_ICON.collapsed
+            : ""}
         </button>
 
         {isRenaming ? (
@@ -58,31 +62,47 @@ export function EntryRow({ node, depth, actions, ui }) {
           <button
             type="button"
             className={styles.name}
-            onClick={() => (isFolder ? actions.onToggle(node.id) : actions.onOpenFile(node))}
+            onClick={() =>
+              isFolder ? actions.onToggle(node.id) : actions.onOpenFile(node)
+            }
           >
             <span className={styles.icon} aria-hidden="true">
               {isFolder ? "📁" : "📄"}
             </span>
             <span className={styles.label}>{node.name}</span>
-            {isDirty && <span className={styles.dirtyDot} aria-label="Unsaved changes" />}
+            {isDirty && (
+              <span className={styles.dirtyDot} aria-label="Unsaved changes" />
+            )}
           </button>
         )}
 
         <div className={styles.actions}>
           {isFolder && (
             <>
-              <IconButton label="New file" onClick={() => actions.onCreateChild(node.id, "file")}>
+              <IconButton
+                label="New file"
+                onClick={() => actions.onCreateChild(node.id, "file")}
+              >
                 +📄
               </IconButton>
-              <IconButton label="New folder" onClick={() => actions.onCreateChild(node.id, "folder")}>
+              <IconButton
+                label="New folder"
+                onClick={() => actions.onCreateChild(node.id, "folder")}
+              >
                 +📁
               </IconButton>
             </>
           )}
-          <IconButton label="Rename" onClick={() => actions.onStartRename(node)}>
+          <IconButton
+            label="Rename"
+            onClick={() => actions.onStartRename(node)}
+          >
             ✎
           </IconButton>
-          <IconButton label="Duplicate" onClick={() => actions.onDuplicate(node.id)}>
+          <IconButton
+            label="Duplicate"
+            onClick={() => actions.onDuplicate(node.id)}
+          >
             ⧉
           </IconButton>
           <IconButton label="Delete" onClick={() => actions.onDelete(node)}>
@@ -95,7 +115,10 @@ export function EntryRow({ node, depth, actions, ui }) {
         <ul className={styles.children}>
           {ui.creatingIn?.parentId === node.id && (
             <li>
-              <div className={styles.row} style={{ paddingLeft: `${(depth + 1) * 14 + 6}px` }}>
+              <div
+                className={styles.row}
+                style={{ paddingLeft: `${(depth + 1) * 14 + 6}px` }}
+              >
                 <span className={styles.disclosure} />
                 <span className={styles.icon} aria-hidden="true">
                   {ui.creatingIn.type === "folder" ? "📁" : "📄"}
@@ -104,7 +127,11 @@ export function EntryRow({ node, depth, actions, ui }) {
                   autoFocus
                   className={styles.renameInput}
                   value={ui.creatingValue}
-                  placeholder={ui.creatingIn.type === "folder" ? "folder-name" : "file-name.js"}
+                  placeholder={
+                    ui.creatingIn.type === "folder"
+                      ? "folder-name"
+                      : "file-name.js"
+                  }
                   onChange={(e) => actions.onCreatingChange(e.target.value)}
                   onBlur={() => actions.onCommitCreate()}
                   onKeyDown={(e) => {
@@ -116,7 +143,13 @@ export function EntryRow({ node, depth, actions, ui }) {
             </li>
           )}
           {node.children.map((child) => (
-            <EntryRow key={child.id} node={child} depth={depth + 1} actions={actions} ui={ui} />
+            <EntryRow
+              key={child.id}
+              node={child}
+              depth={depth + 1}
+              actions={actions}
+              ui={ui}
+            />
           ))}
         </ul>
       )}

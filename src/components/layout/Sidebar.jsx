@@ -12,14 +12,29 @@ const VIEW_COMPONENTS = {
   snippets: SnippetsPanel,
 };
 
-export function Sidebar({ activeView, onChangeView, isMobileOpen, onCloseMobile }) {
-  const activeLabel = SIDEBAR_VIEWS.find((v) => v.id === activeView)?.label ?? "";
+export function Sidebar({
+  activeView,
+  onChangeView,
+  isMobileOpen,
+  onCloseMobile,
+}) {
+  const activeLabel =
+    SIDEBAR_VIEWS.find((v) => v.id === activeView)?.label ?? "";
   const ViewComponent = VIEW_COMPONENTS[activeView];
 
   return (
     <>
-      {isMobileOpen && <button type="button" className={styles.backdrop} aria-label="Close sidebar" onClick={onCloseMobile} />}
-      <aside className={`${styles.sidebar} ${isMobileOpen ? styles.sidebarOpen : ""}`}>
+      {isMobileOpen && (
+        <button
+          type="button"
+          className={styles.backdrop}
+          aria-label="Close sidebar"
+          onClick={onCloseMobile}
+        />
+      )}
+      <aside
+        className={`${styles.sidebar} ${isMobileOpen ? styles.sidebarOpen : ""}`}
+      >
         <nav className={styles.rail} aria-label="Sidebar views">
           {SIDEBAR_VIEWS.map((view) => (
             <button

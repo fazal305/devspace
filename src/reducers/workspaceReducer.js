@@ -21,7 +21,9 @@ export function workspaceReducer(state, action) {
       return initialWorkspaceState;
 
     case "OPEN_FILE": {
-      const existing = state.openTabs.find((tab) => tab.entryId === action.entryId);
+      const existing = state.openTabs.find(
+        (tab) => tab.entryId === action.entryId,
+      );
       if (existing) return { ...state, activeTabId: action.entryId };
       const tab = {
         entryId: action.entryId,
@@ -29,7 +31,11 @@ export function workspaceReducer(state, action) {
         draftContent: action.content,
         isDirty: false,
       };
-      return { ...state, openTabs: [...state.openTabs, tab], activeTabId: action.entryId };
+      return {
+        ...state,
+        openTabs: [...state.openTabs, tab],
+        activeTabId: action.entryId,
+      };
     }
 
     case "UPDATE_TAB_CONTENT":
@@ -37,8 +43,12 @@ export function workspaceReducer(state, action) {
         ...state,
         openTabs: state.openTabs.map((tab) =>
           tab.entryId === action.entryId
-            ? { ...tab, draftContent: action.content, isDirty: action.content !== tab.savedContent }
-            : tab
+            ? {
+                ...tab,
+                draftContent: action.content,
+                isDirty: action.content !== tab.savedContent,
+              }
+            : tab,
         ),
       };
 
@@ -46,15 +56,23 @@ export function workspaceReducer(state, action) {
       return {
         ...state,
         openTabs: state.openTabs.map((tab) =>
-          tab.entryId === action.entryId ? { ...tab, savedContent: tab.draftContent, isDirty: false } : tab
+          tab.entryId === action.entryId
+            ? { ...tab, savedContent: tab.draftContent, isDirty: false }
+            : tab,
         ),
       };
 
     case "CLOSE_TAB":
       return {
         ...state,
-        openTabs: state.openTabs.filter((tab) => tab.entryId !== action.entryId),
-        activeTabId: nextActiveAfterClose(state.openTabs, action.entryId, state.activeTabId),
+        openTabs: state.openTabs.filter(
+          (tab) => tab.entryId !== action.entryId,
+        ),
+        activeTabId: nextActiveAfterClose(
+          state.openTabs,
+          action.entryId,
+          state.activeTabId,
+        ),
       };
 
     case "CLOSE_ALL_TABS":

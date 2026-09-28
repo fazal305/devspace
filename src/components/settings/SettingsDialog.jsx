@@ -7,10 +7,19 @@ export function SettingsDialog({ open, onClose }) {
   const { theme, setTheme } = useTheme();
 
   return (
-    <Dialog open={open} onClose={onClose} title="Settings" labelledBy="settings-dialog-title">
+    <Dialog
+      open={open}
+      onClose={onClose}
+      title="Settings"
+      labelledBy="settings-dialog-title"
+    >
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>Appearance</h3>
-        <div className={styles.themeOptions} role="radiogroup" aria-label="Theme">
+        <div
+          className={styles.themeOptions}
+          role="radiogroup"
+          aria-label="Theme"
+        >
           {THEME_OPTIONS.map((opt) => (
             <label key={opt.value} className={styles.themeOption}>
               <input

@@ -20,12 +20,16 @@ export function SnippetsPanel() {
   const [editingSnippet, setEditingSnippet] = useState(undefined); // undefined = closed, null = creating, object = editing
   const [pendingDeleteId, setPendingDeleteId] = useState(null);
 
-  const languages = useMemo(() => Array.from(new Set(snippets.map((s) => s.language))).sort(), [snippets]);
+  const languages = useMemo(
+    () => Array.from(new Set(snippets.map((s) => s.language))).sort(),
+    [snippets],
+  );
 
   const filtered = useMemo(() => {
     const needle = query.trim().toLowerCase();
     return snippets.filter((s) => {
-      if (languageFilter !== "all" && s.language !== languageFilter) return false;
+      if (languageFilter !== "all" && s.language !== languageFilter)
+        return false;
       if (!needle) return true;
       return (
         s.title.toLowerCase().includes(needle) ||
@@ -38,9 +42,14 @@ export function SnippetsPanel() {
   async function handleCopy(snippet) {
     try {
       await navigator.clipboard.writeText(snippet.code);
-      notify("Snippet copied to clipboard", { type: "success", duration: 2000 });
+      notify("Snippet copied to clipboard", {
+        type: "success",
+        duration: 2000,
+      });
     } catch {
-      notify("Couldn't access the clipboard in this browser.", { type: "error" });
+      notify("Couldn't access the clipboard in this browser.", {
+        type: "error",
+      });
     }
   }
 
@@ -50,8 +59,14 @@ export function SnippetsPanel() {
       notify("Open a file in the editor first.", { type: "warning" });
       return;
     }
-    const separator = activeTab.draftContent && !activeTab.draftContent.endsWith("\n") ? "\n" : "";
-    updateTabContent(activeTabId, `${activeTab.draftContent}${separator}${snippet.code}`);
+    const separator =
+      activeTab.draftContent && !activeTab.draftContent.endsWith("\n")
+        ? "\n"
+        : "";
+    updateTabContent(
+      activeTabId,
+      `${activeTab.draftContent}${separator}${snippet.code}`,
+    );
     notify("Snippet inserted", { type: "success", duration: 2000 });
   }
 
@@ -62,7 +77,12 @@ export function SnippetsPanel() {
   }
 
   if (error) {
-    return <EmptyState title="Local storage unavailable" description="DevSpace couldn't reach IndexedDB in this browser." />;
+    return (
+      <EmptyState
+        title="Local storage unavailable"
+        description="DevSpace couldn't reach IndexedDB in this browser."
+      />
+    );
   }
 
   if (!isLoading && snippets.length === 0) {
@@ -77,7 +97,11 @@ export function SnippetsPanel() {
             </Button>
           }
         />
-        <SnippetFormDialog open={editingSnippet !== undefined} snippet={editingSnippet} onClose={() => setEditingSnippet(undefined)} />
+        <SnippetFormDialog
+          open={editingSnippet !== undefined}
+          snippet={editingSnippet}
+          onClose={() => setEditingSnippet(undefined)}
+        />
       </>
     );
   }
@@ -93,7 +117,12 @@ export function SnippetsPanel() {
           onChange={(e) => setQuery(e.target.value)}
           aria-label="Search snippets"
         />
-        <select className={styles.select} value={languageFilter} onChange={(e) => setLanguageFilter(e.target.value)} aria-label="Filter by language">
+        <select
+          className={styles.select}
+          value={languageFilter}
+          onChange={(e) => setLanguageFilter(e.target.value)}
+          aria-label="Filter by language"
+        >
           <option value="all">All languages</option>
           {languages.map((lang) => (
             <option key={lang} value={lang}>
@@ -107,7 +136,12 @@ export function SnippetsPanel() {
       </div>
 
       <ul className={styles.list}>
-        {filtered.length === 0 && <EmptyState title="No search results" description="Try a different search term." />}
+        {filtered.length === 0 && (
+          <EmptyState
+            title="No search results"
+            description="Try a different search term."
+          />
+        )}
         {filtered.map((snippet) => (
           <li key={snippet.id} className={styles.item}>
             <div className={styles.itemHeader}>
@@ -120,7 +154,9 @@ export function SnippetsPanel() {
                 {snippet.favorite ? "★" : "☆"}
               </IconButton>
             </div>
-            {snippet.description && <p className={styles.itemDescription}>{snippet.description}</p>}
+            {snippet.description && (
+              <p className={styles.itemDescription}>{snippet.description}</p>
+            )}
             <div className={styles.meta}>
               <span className={styles.languageBadge}>{snippet.language}</span>
               {snippet.tags.map((tag) => (
@@ -133,13 +169,22 @@ export function SnippetsPanel() {
               <IconButton label="Copy" onClick={() => handleCopy(snippet)}>
                 ⧉
               </IconButton>
-              <IconButton label="Insert into editor" onClick={() => handleInsert(snippet)}>
+              <IconButton
+                label="Insert into editor"
+                onClick={() => handleInsert(snippet)}
+              >
                 ⏎
               </IconButton>
-              <IconButton label="Edit" onClick={() => setEditingSnippet(snippet)}>
+              <IconButton
+                label="Edit"
+                onClick={() => setEditingSnippet(snippet)}
+              >
                 ✎
               </IconButton>
-              <IconButton label="Delete" onClick={() => setPendingDeleteId(snippet.id)}>
+              <IconButton
+                label="Delete"
+                onClick={() => setPendingDeleteId(snippet.id)}
+              >
                 🗑
               </IconButton>
             </div>
@@ -147,7 +192,11 @@ export function SnippetsPanel() {
         ))}
       </ul>
 
-      <SnippetFormDialog open={editingSnippet !== undefined} snippet={editingSnippet} onClose={() => setEditingSnippet(undefined)} />
+      <SnippetFormDialog
+        open={editingSnippet !== undefined}
+        snippet={editingSnippet}
+        onClose={() => setEditingSnippet(undefined)}
+      />
       <ConfirmDialog
         open={pendingDeleteId !== null}
         title="Delete snippet?"

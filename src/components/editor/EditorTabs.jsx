@@ -1,7 +1,13 @@
 import { IconButton } from "../common/IconButton";
 import styles from "./EditorTabs.module.css";
 
-export function EditorTabs({ tabs, activeTabId, onSelect, onClose, onCloseAll }) {
+export function EditorTabs({
+  tabs,
+  activeTabId,
+  onSelect,
+  onClose,
+  onCloseAll,
+}) {
   if (tabs.length === 0) return null;
 
   return (
@@ -14,9 +20,18 @@ export function EditorTabs({ tabs, activeTabId, onSelect, onClose, onCloseAll })
             aria-selected={tab.entryId === activeTabId}
             className={`${styles.tab} ${tab.entryId === activeTabId ? styles.tabActive : ""}`}
           >
-            <button type="button" className={styles.tabLabel} onClick={() => onSelect(tab.entryId)}>
+            <button
+              type="button"
+              className={styles.tabLabel}
+              onClick={() => onSelect(tab.entryId)}
+            >
               <span className={styles.tabName}>{tab.name}</span>
-              {tab.isDirty && <span className={styles.dirtyDot} aria-label="Unsaved changes" />}
+              {tab.isDirty && (
+                <span
+                  className={styles.dirtyDot}
+                  aria-label="Unsaved changes"
+                />
+              )}
             </button>
             <button
               type="button"

@@ -13,7 +13,14 @@ export const snippetRepository = {
     return db.snippets.get(id);
   },
 
-  async create({ title, description = "", language, code, tags = [], favorite = false }) {
+  async create({
+    title,
+    description = "",
+    language,
+    code,
+    tags = [],
+    favorite = false,
+  }) {
     const snippet = {
       id: crypto.randomUUID(),
       title,
@@ -36,7 +43,10 @@ export const snippetRepository = {
   async toggleFavorite(id) {
     const snippet = await db.snippets.get(id);
     if (!snippet) return;
-    await db.snippets.update(id, { favorite: !snippet.favorite, updatedAt: now() });
+    await db.snippets.update(id, {
+      favorite: !snippet.favorite,
+      updatedAt: now(),
+    });
   },
 
   async remove(id) {

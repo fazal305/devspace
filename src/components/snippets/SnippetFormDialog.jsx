@@ -8,7 +8,14 @@ import { snippetRepository } from "../../db/repositories/snippetRepository";
 import { useNotifications } from "../../context/NotificationContext";
 import styles from "./SnippetFormDialog.module.css";
 
-const EMPTY_FORM = { title: "", description: "", language: "javascript", tags: "", code: "", favorite: false };
+const EMPTY_FORM = {
+  title: "",
+  description: "",
+  language: "javascript",
+  tags: "",
+  code: "",
+  favorite: false,
+};
 
 function toFormState(snippet) {
   if (!snippet) return EMPTY_FORM;
@@ -45,7 +52,10 @@ export function SnippetFormDialog({ open, snippet, onClose }) {
       description: form.description.trim(),
       language: form.language,
       code: form.code,
-      tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean),
+      tags: form.tags
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean),
       favorite: form.favorite,
     };
 
@@ -59,12 +69,19 @@ export function SnippetFormDialog({ open, snippet, onClose }) {
       }
       onClose();
     } catch {
-      notify("Couldn't save snippet — local storage may be unavailable.", { type: "error" });
+      notify("Couldn't save snippet — local storage may be unavailable.", {
+        type: "error",
+      });
     }
   }
 
   return (
-    <Dialog open={open} onClose={onClose} title={isEditing ? "Edit Snippet" : "New Snippet"} labelledBy="snippet-dialog-title">
+    <Dialog
+      open={open}
+      onClose={onClose}
+      title={isEditing ? "Edit Snippet" : "New Snippet"}
+      labelledBy="snippet-dialog-title"
+    >
       <form onSubmit={handleSubmit} className={styles.form}>
         <TextField
           label="Title"
@@ -77,12 +94,20 @@ export function SnippetFormDialog({ open, snippet, onClose }) {
           }}
         />
 
-        <TextField label="Description" value={form.description} onChange={(e) => update("description", e.target.value)} />
+        <TextField
+          label="Description"
+          value={form.description}
+          onChange={(e) => update("description", e.target.value)}
+        />
 
         <div className={styles.row}>
           <label className={styles.field}>
             <span className={styles.label}>Language</span>
-            <select className={styles.select} value={form.language} onChange={(e) => update("language", e.target.value)}>
+            <select
+              className={styles.select}
+              value={form.language}
+              onChange={(e) => update("language", e.target.value)}
+            >
               {LANGUAGES.map((lang) => (
                 <option key={lang.id} value={lang.id}>
                   {lang.label}
@@ -112,7 +137,11 @@ export function SnippetFormDialog({ open, snippet, onClose }) {
         </label>
 
         <label className={styles.checkboxRow}>
-          <input type="checkbox" checked={form.favorite} onChange={(e) => update("favorite", e.target.checked)} />
+          <input
+            type="checkbox"
+            checked={form.favorite}
+            onChange={(e) => update("favorite", e.target.checked)}
+          />
           Favorite
         </label>
 

@@ -3,7 +3,11 @@ import { EditorView, basicSetup } from "codemirror";
 import { EditorState } from "@codemirror/state";
 import { keymap } from "@codemirror/view";
 import { indentWithTab } from "@codemirror/commands";
-import { getLanguageExtension, createEditorTheme, createSyntaxHighlighting } from "./cmSetup";
+import {
+  getLanguageExtension,
+  createEditorTheme,
+  createSyntaxHighlighting,
+} from "./cmSetup";
 import { EmptyState } from "../common/EmptyState";
 import styles from "./EditorPane.module.css";
 
@@ -79,13 +83,18 @@ export function EditorPane({ entryId, language, content, onChange, onSave }) {
     if (!view) return;
     const currentDoc = view.state.doc.toString();
     if (content !== currentDoc) {
-      view.dispatch({ changes: { from: 0, to: currentDoc.length, insert: content } });
+      view.dispatch({
+        changes: { from: 0, to: currentDoc.length, insert: content },
+      });
     }
   }, [content]);
 
   if (!entryId) {
     return (
-      <EmptyState title="No file open" description="Select a file from the explorer, or create a new one." />
+      <EmptyState
+        title="No file open"
+        description="Select a file from the explorer, or create a new one."
+      />
     );
   }
 

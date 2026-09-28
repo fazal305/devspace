@@ -2,7 +2,11 @@ import { useRef } from "react";
 import { Button } from "../common/Button";
 import { useProjectImport } from "../../hooks/useProjectImport";
 
-export function ImportProjectButton({ variant = "secondary", label = "Import Project", onNavigateView }) {
+export function ImportProjectButton({
+  variant = "secondary",
+  label = "Import Project",
+  onNavigateView,
+}) {
   const inputRef = useRef(null);
   const { isImporting, importFromFile } = useProjectImport(onNavigateView);
 
@@ -14,8 +18,18 @@ export function ImportProjectButton({ variant = "secondary", label = "Import Pro
 
   return (
     <>
-      <input ref={inputRef} type="file" accept=".zip" hidden onChange={handleFileChange} />
-      <Button variant={variant} disabled={isImporting} onClick={() => inputRef.current?.click()}>
+      <input
+        ref={inputRef}
+        type="file"
+        accept=".zip"
+        hidden
+        onChange={handleFileChange}
+      />
+      <Button
+        variant={variant}
+        disabled={isImporting}
+        onClick={() => inputRef.current?.click()}
+      >
         {isImporting ? "Importing…" : label}
       </Button>
     </>

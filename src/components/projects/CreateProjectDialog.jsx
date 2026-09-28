@@ -41,7 +41,10 @@ export function CreateProjectDialog({ open, onClose }) {
     setIsSubmitting(true);
     try {
       const template = starterProjects.find((t) => t.id === templateId);
-      const project = await projectRepository.create({ name: name.trim(), template: templateId });
+      const project = await projectRepository.create({
+        name: name.trim(),
+        template: templateId,
+      });
       if (template?.entries?.length) {
         await entryRepository.seedFromTemplate(project.id, template.entries);
       }
@@ -49,13 +52,20 @@ export function CreateProjectDialog({ open, onClose }) {
       await openProject(project.id);
       handleClose();
     } catch {
-      notify("Couldn't create project — local storage may be unavailable.", { type: "error" });
+      notify("Couldn't create project — local storage may be unavailable.", {
+        type: "error",
+      });
       setIsSubmitting(false);
     }
   }
 
   return (
-    <Dialog open={open} onClose={handleClose} title="New Project" labelledBy="create-project-title">
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      title="New Project"
+      labelledBy="create-project-title"
+    >
       <form onSubmit={handleSubmit} className={styles.form}>
         <TextField
           label="Project name"
@@ -82,7 +92,9 @@ export function CreateProjectDialog({ open, onClose }) {
               />
               <span>
                 <span className={styles.templateName}>{template.name}</span>
-                <span className={styles.templateDescription}>{template.description}</span>
+                <span className={styles.templateDescription}>
+                  {template.description}
+                </span>
               </span>
             </label>
           ))}

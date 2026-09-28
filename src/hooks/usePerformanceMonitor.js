@@ -8,10 +8,15 @@ let entries = [];
 const listeners = new Set();
 
 export function recordPerformanceEntry(label, durationMs) {
-  entries = [{ id: crypto.randomUUID(), label, durationMs, timestamp: new Date().toISOString() }, ...entries].slice(
-    0,
-    MAX_ENTRIES
-  );
+  entries = [
+    {
+      id: crypto.randomUUID(),
+      label,
+      durationMs,
+      timestamp: new Date().toISOString(),
+    },
+    ...entries,
+  ].slice(0, MAX_ENTRIES);
   listeners.forEach((listener) => listener());
 }
 

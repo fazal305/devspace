@@ -13,7 +13,13 @@ export const projectRepository = {
     return db.projects.get(id);
   },
 
-  async create({ name, description = "", template = null, favorite = false, settings = {} }) {
+  async create({
+    name,
+    description = "",
+    template = null,
+    favorite = false,
+    settings = {},
+  }) {
     const project = {
       id: crypto.randomUUID(),
       name,
@@ -39,7 +45,10 @@ export const projectRepository = {
   async toggleFavorite(id) {
     const project = await db.projects.get(id);
     if (!project) return;
-    await db.projects.update(id, { favorite: !project.favorite, updatedAt: now() });
+    await db.projects.update(id, {
+      favorite: !project.favorite,
+      updatedAt: now(),
+    });
   },
 
   async touch(id) {
@@ -47,11 +56,17 @@ export const projectRepository = {
   },
 
   async remove(id) {
-    await db.transaction("rw", db.projects, db.entries, db.recentItems, async () => {
-      await db.entries.where("projectId").equals(id).delete();
-      await db.recentItems.where("projectId").equals(id).delete();
-      await db.projects.delete(id);
-    });
+    await db.transaction(
+      "rw",
+      db.projects,
+      db.entries,
+      db.recentItems,
+      async () => {
+        await db.entries.where("projectId").equals(id).delete();
+        await db.recentItems.where("projectId").equals(id).delete();
+        await db.projects.delete(id);
+      },
+    );
   },
 
   async duplicate(id) {
@@ -70,8 +85,13 @@ export const projectRepository = {
         updatedAt: timestamp,
       });
 
-      const sourceEntries = await db.entries.where("projectId").equals(id).toArray();
-      const idMap = new Map(sourceEntries.map((entry) => [entry.id, crypto.randomUUID()]));
+      const sourceEntries = await db.entries
+        .where("projectId")
+        .equals(id)
+        .toArray();
+      const idMap = new Map(
+        sourceEntries.map((entry) => [entry.id, crypto.randomUUID()]),
+      );
       const clonedEntries = sourceEntries.map((entry) => ({
         ...entry,
         id: idMap.get(entry.id),

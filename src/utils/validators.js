@@ -11,7 +11,8 @@ export function validateEntryName(name) {
   const trimmed = name.trim();
   if (!trimmed) return "Name can't be empty.";
   if (trimmed === "." || trimmed === "..") return "That name isn't allowed.";
-  if (RESERVED_NAME_CHARS.test(trimmed)) return `Name can't contain ${'/ \\ : * ? " < > |'}`;
+  if (RESERVED_NAME_CHARS.test(trimmed))
+    return `Name can't contain ${'/ \\ : * ? " < > |'}`;
   if (trimmed.length > 120) return "Name is too long.";
   return null;
 }

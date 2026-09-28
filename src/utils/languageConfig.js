@@ -13,7 +13,9 @@ export const LANGUAGES = [
 ];
 
 export function detectLanguage(filename) {
-  const ext = filename.includes(".") ? filename.split(".").pop().toLowerCase() : "";
+  const ext = filename.includes(".")
+    ? filename.split(".").pop().toLowerCase()
+    : "";
   const match = LANGUAGES.find((lang) => lang.extensions.includes(ext));
   return match ? match.id : "plaintext";
 }
